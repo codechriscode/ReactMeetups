@@ -4,7 +4,7 @@ import cx from "./MeetupList.module.css";
 
 export default function MeetupList(props) {
   return (
-    <ul className={cx.MeetupList}>
+    <ul className={cx.list}>
       {props.list.map((item) => (
         <MeetupItem
           title={item.title}

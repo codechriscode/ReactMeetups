@@ -3,9 +3,9 @@ import cx from "./Layout.module.css";
 
 export function Layout(props) {
   return (
-    <div className={cx.main}>
+    <div>
       <MainNav />
-      <main>{props.children}</main>
+      <main className={cx.main}>{props.children}</main>
     </div>
   );
 }

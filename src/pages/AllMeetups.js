@@ -1,31 +1,31 @@
+import { useEffect, useState } from "react";
 import MeetupList from "../components/meetups/MeetupList";
-
-const DUMMY_DATA = [
-  {
-    id: "m1",
-    title: "This is a first meetup",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Maresias_-_bresil.JPG/800px-Maresias_-_bresil.JPG",
-    address: "Meetupstreet 5, 12345 Meetup City",
-    description:
-      "This is a first, amazing meetup which you definitely should not miss. It will be a lot of fun!",
-  },
-  {
-    id: "m2",
-    title: "This is a second meetup",
-    image:
-      "https://media-cdn.tripadvisor.com/media/photo-s/17/27/e7/7c/smoke-waterfall.jpg",
-    address: "Meetupstreet 5, 12345 Meetup City",
-    description:
-      "This is a first, amazing meetup which you definitely should not miss. It will be a lot of fun!",
-  },
-];
+import Loading from "../components/ui/Loading";
 
 export default function AllMeetups() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [meetups, setMeetups] = useState([]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetch(
+      `https://meet-up-react-course-default-rtdb.firebaseio.com/meetups.json`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const meetups = [];
+        for (const key in data) {
+          meetups.push({ id: key, ...data[key] });
+        }
+        setIsLoading(false);
+        setMeetups(meetups);
+      });
+  }, []);
+
   return (
     <section>
       <h1>All Meetups</h1>
-      <MeetupList list={DUMMY_DATA} />
+      {isLoading ? <Loading /> : <MeetupList list={meetups} />}
     </section>
   );
 }

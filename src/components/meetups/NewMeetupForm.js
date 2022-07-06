@@ -23,6 +23,8 @@ export default function NewMeetupForm(props) {
       address: enteredAddress,
     };
 
+    props.onAddMeetup(meetupData);
+
     console.log(meetupData);
   }
 

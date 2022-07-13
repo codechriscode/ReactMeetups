@@ -12,6 +12,7 @@ export default function MeetupList(props) {
           image={item.image}
           address={item.address}
           key={item.id}
+          id={item.id}
         />
       ))}
     </ul>

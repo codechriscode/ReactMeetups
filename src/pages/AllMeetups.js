@@ -17,8 +17,8 @@ export default function AllMeetups() {
         for (const key in data) {
           meetups.push({ id: key, ...data[key] });
         }
-        setIsLoading(false);
         setMeetups(meetups);
+        setIsLoading(false);
       });
   }, []);
 

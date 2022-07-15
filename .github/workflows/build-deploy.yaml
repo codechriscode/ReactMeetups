@@ -1,0 +1,48 @@
+name: Build & deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install NPM
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18.x
+      - name: Install NPM packages
+        run: npm ci
+      - name: Build project
+        run: npm run build
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: production-files
+          path: ./build
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: production-files
+          path: ./build
+      - name: Deploy to ghpages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
+
+
